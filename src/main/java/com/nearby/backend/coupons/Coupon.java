@@ -22,7 +22,6 @@ public class Coupon {
 	public Coupon(String name, String description, String image, Integer count, String shopName, String city,
 			String area) {
 		super();
-
 		this.name = name;
 		this.description = description;
 		this.image = image;
