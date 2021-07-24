@@ -25,6 +25,11 @@ public class CouponController {
 		this.couponService = couponService;
 	}
 
+	@GetMapping(value = "/test")
+	public String test() {
+		return "Success";
+	}
+	
 	@GetMapping(value = "/all-coupons")
 	public List<Coupon> getAllCoupons() {
 		return couponService.getAllCoupons();
