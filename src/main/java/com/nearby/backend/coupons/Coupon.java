@@ -3,8 +3,11 @@ package com.nearby.backend.coupons;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "coupons")
@@ -18,9 +21,10 @@ public class Coupon {
 	private String shopName;
 	private String city;
 	private String area;
+	private String code;
 
 	public Coupon(String name, String description, String image, Integer count, String shopName, String city,
-			String area) {
+			String area, String code) {
 		super();
 
 		this.name = name;
@@ -30,13 +34,15 @@ public class Coupon {
 		this.shopName = shopName;
 		this.city = city;
 		this.area = area;
+		this.code = code;
 	}
 
 	public Coupon() {
 		super();
 	}
+
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
@@ -81,7 +87,7 @@ public class Coupon {
 		this.count = count;
 	}
 
-	@Column(name = "shop_name", nullable=false)
+	@Column(name = "shop_name", nullable = false)
 	public String getShopName() {
 		return shopName;
 	}
@@ -106,6 +112,15 @@ public class Coupon {
 
 	public void setArea(String area) {
 		this.area = area;
+	}
+
+	@Column(name = "code", nullable = false)
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 }
