@@ -40,7 +40,7 @@ public class UserController {
 		 return userService.loginUser(username);
 	 }
 	 
-	 @GetMapping("/login-admin")
+	 @PostMapping("/login-admin")
 	 public Admin loginAdmin(@RequestBody Admin admin) {
 		 return userService.loginAdmin(admin);
 	 }
