@@ -10,6 +10,6 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
 	List<Coupon> findByCityIgnoreCase(String city);
 
-	List<Coupon> findByCityAndAreaIgnoreCase(String city, String area);
+	List<Coupon> findByCityContainingIgnoreCaseAndAreaContainingIgnoreCase(String city, String area);
 
 }

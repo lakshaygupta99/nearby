@@ -33,7 +33,7 @@ public class CouponService {
 	}
 
 	public List<Coupon> getCouponsBasedOnArea(String city, String area) {
-		List<Coupon> list = couponRepository.findByCityAndAreaIgnoreCase(city, area);
+		List<Coupon> list = couponRepository.findByCityContainingIgnoreCaseAndAreaContainingIgnoreCase(city, area);
 		return list;
 	}
 
