@@ -1,6 +1,7 @@
 package com.nearby.backend.users;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,13 @@ public class UserController {
 	         
 	 }
 	 
-	
-	 @PostMapping("/login-user/{username}")
-	 public User loginUser(@PathVariable(value = "username") String username) {
-		 return userService.loginUser(username);
-	    }
+	 @PostMapping("/login-user/")
+	 public User loginUser(@RequestBody Map<String,String> reqMap) {
+		 return userService.loginUser(reqMap);
+	 }
+	 
+	 @PostMapping("/login-admin")
+	 public Admin loginAdmin(@RequestBody Admin admin) {
+		 return userService.loginAdmin(admin);
+	 }
 }
