@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
-	List<Coupon> findByCityIgnoreCase(String city);
+	List<Coupon> findByCityContainingIgnoreCase(String city);
 
 	List<Coupon> findByCityContainingIgnoreCaseAndAreaContainingIgnoreCase(String city, String area);
 

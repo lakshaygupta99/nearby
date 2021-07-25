@@ -28,7 +28,7 @@ public class CouponService {
 	}
 
 	public List<Coupon> getCouponsBasedOnCity(String city) {
-		List<Coupon> list = couponRepository.findByCityIgnoreCase(city);
+		List<Coupon> list = couponRepository.findByCityContainingIgnoreCase(city);
 		return list;
 	}
 
