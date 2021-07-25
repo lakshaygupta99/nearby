@@ -38,5 +38,10 @@ public class UserController {
 	 @PostMapping("/login-user/{username}")
 	 public User loginUser(@PathVariable(value = "username") String username) {
 		 return userService.loginUser(username);
-	    }
+	 }
+	 
+	 @GetMapping("/login-admin")
+	 public Admin loginAdmin(@RequestBody Admin admin) {
+		 return userService.loginAdmin(admin);
+	 }
 }

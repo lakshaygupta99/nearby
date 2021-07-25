@@ -27,5 +27,13 @@ public class UserService {
 		return userRepository.findByUsername(username);
 	}
 	
-	
+	public Admin loginAdmin(Admin admin) {
+		String username = admin.getUsername();
+		String password = admin.getPassword();
+		
+		if(username.equals("admin") && password.equals("admin"))
+			return admin;
+		else
+			return null;
+	}
 }
