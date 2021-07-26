@@ -1,6 +1,8 @@
 package com.nearby.backend.coupons;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,16 @@ public class CouponService {
 		// TODO Auto-generated method stub
 		couponRepository.delete(coupon);
 		
+	}
+
+	public ArrayList<Coupon> getCoupons(ArrayList<Long> id) {
+		// TODO Auto-generated method stub
+		return couponRepository.getCoupons(id);
+	}
+
+	public Object reduceCount(Map<String, Long> c) {
+		// TODO Auto-generated method stub
+		return couponRepository.reduceCount(c.get("id"), c.get("quantity"));
 	}
 
 }

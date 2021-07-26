@@ -1,4 +1,5 @@
-package cart;
+package com.nearby.backend.cart;
+
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class Cart {
 
 	private Long id;
 	
-	private User createdBy;
+	private Long createdBy;
 
 	private ArrayList<Long> coupon_ids;
 
@@ -31,9 +32,9 @@ public class Cart {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cart(Long id, ArrayList<Long> coupon_ids) {
+	public Cart(Long createdBy, ArrayList<Long> coupon_ids) {
 		super();
-		this.id = id;
+		this.createdBy = createdBy;
 		this.coupon_ids = coupon_ids;
 	}
 
@@ -47,16 +48,16 @@ public class Cart {
 		this.id = id;
 	}
 
-	
-	@OneToOne(mappedBy = "cart")
-	public User getCreatedBy() {
+	@Column(name = "user_id", nullable = false)
+	public Long getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(User createdBy) {
+	public void setCreatedBy(Long createdBy) {
 		this.createdBy = createdBy;
 	}
 
+	@Column(name = "coupon_ids")
 	public ArrayList<Long> getCoupon_ids() {
 		return coupon_ids;
 	}
