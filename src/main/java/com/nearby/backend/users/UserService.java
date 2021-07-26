@@ -1,5 +1,6 @@
 package com.nearby.backend.users;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,10 @@ public class UserService {
 	
 	@Autowired
     private UserRepository userRepository;
+	
+	public List<User> getAllUsers(){
+		return userRepository.findAll();
+	}
 
 	public User registerUser(User user) {
 		User user1 = userRepository.findByEmail(user.getEmail());
