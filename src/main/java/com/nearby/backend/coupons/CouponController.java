@@ -91,5 +91,21 @@ public class CouponController {
         response.put("deleted", Boolean.TRUE);
         return response;
     }
+    
+	@PostMapping("/get-coupons-in-cart")
+	public ArrayList<Coupon> getCoupons(@Validated @RequestBody Map<String,ArrayList<Long>> id){
+		return (ArrayList<Coupon>) couponService.getCoupons(id.get("coupon_ids"));
+	}
+	
+	@PutMapping("/reduce-coupon-count")
+	public Map<String, String> reduceCouponCount(@Validated @RequestBody ArrayList<Map<String,Long>> coupons){
+		
+		coupons.forEach((c) -> 
+		couponService.reduceCount(c));
+		
+		Map<String, String> m  = new HashMap<String, String>();
+		m.put("status", "success");
+		return m;
+	}
 
 }
