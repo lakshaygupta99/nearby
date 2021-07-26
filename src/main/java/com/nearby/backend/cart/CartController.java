@@ -50,7 +50,7 @@ public class CartController {
 		}else {
 			Cart newCart = new Cart(id, null);
 			
-			return newCart;
+			return cartService.save(newCart);
 		}
 		
 	}
