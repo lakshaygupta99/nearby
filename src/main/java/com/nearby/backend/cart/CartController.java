@@ -48,7 +48,8 @@ public class CartController {
 		if(crt != null) {
 			return crt;
 		}else {
-			Cart newCart = new Cart(id, null);
+			ArrayList<Long> l = new ArrayList<Long>();
+			Cart newCart = new Cart(id, l);
 			
 			return cartService.save(newCart);
 		}
