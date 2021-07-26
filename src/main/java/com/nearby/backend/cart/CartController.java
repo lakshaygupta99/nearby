@@ -42,7 +42,17 @@ public class CartController {
 	
 	@GetMapping("/get-cart/{id}")
 	public Cart getCart(@PathVariable(value = "id") Long id) {
-		return cartService.getCartOfUser(id);
+		Cart crt =  cartService.getCartOfUser(id);
+		
+		
+		if(crt != null) {
+			return crt;
+		}else {
+			Cart newCart = new Cart(id, null);
+			
+			return newCart;
+		}
+		
 	}
 	
 	@PutMapping("/update-cart/{cart_id}")
