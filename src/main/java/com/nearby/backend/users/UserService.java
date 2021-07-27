@@ -18,7 +18,11 @@ public class UserService {
 	}
 
 	public User registerUser(User user) {
-
+		User user1 = userRepository.findByEmail(user.getEmail());
+		User user2 = userRepository.findByUsername(user.getUsername());
+		if(user1!=null || user2!=null) {
+			return null;
+		}
 		return userRepository.save(user);
 
 	}
