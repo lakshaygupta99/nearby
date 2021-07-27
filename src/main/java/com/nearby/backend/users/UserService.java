@@ -23,7 +23,10 @@ public class UserService {
 		if(user1!=null || user2!=null) {
 			return null;
 		}
-		return userRepository.save(user);
+		else {
+			return userRepository.save(user);
+		}
+			
 
 	}
 

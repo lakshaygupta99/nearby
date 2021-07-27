@@ -57,7 +57,6 @@ public class User {
 
 	
 	@Column(name = "username", nullable = false, unique = true)
-	
 	public String getUsername() {
 		return username;
 	}
