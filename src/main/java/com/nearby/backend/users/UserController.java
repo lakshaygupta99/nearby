@@ -21,26 +21,44 @@ public class UserController {
 	}
 
 	@GetMapping(value = "/all-users")
-	public List<User> getAllUsers() {
-		return userService.getAllUsers();
+	public ResponseEntity<List<User>> getAllUsers() {
+		try {
+			return ResponseEntity.ok(userService.getAllUsers());
+		} catch (Exception e) {
+			return ResponseEntity.status(400).body(null);
+		}
+
 	}
 
 	@PostMapping("/register-user")
-	public User registerUser(@Validated @RequestBody User user) {
-		return userService.registerUser(user);
+	public ResponseEntity<User> registerUser(@Validated @RequestBody User user) {
+		try {
+			return ResponseEntity.ok(userService.registerUser(user));
+		} catch (Exception e) {
+			return ResponseEntity.status(400).body(null);
+		}
 
 	}
 
 	@PostMapping("/login-user")
 	public ResponseEntity<Optional<User>> loginUser(@RequestBody Map<String, String> reqMap) {
-	Optional<User> user = userService.loginUser(reqMap);
-
+		try {
+			
+			Optional<User> user = userService.loginUser(reqMap);
 			return ResponseEntity.ok().body(user);
+		}
+		catch(Exception e) {
+			return ResponseEntity.status(400).body(null);
+		}
 		
 	}
 
 	@PostMapping("/login-admin")
-	public Admin loginAdmin(@RequestBody Admin admin) {
-		return userService.loginAdmin(admin);
+	public ResponseEntity<Admin> loginAdmin(@RequestBody Admin admin) {
+		try {
+			return ResponseEntity.ok(userService.loginAdmin(admin));
+		} catch (Exception e) {
+			return ResponseEntity.status(400).body(null);
+		}
 	}
 }
