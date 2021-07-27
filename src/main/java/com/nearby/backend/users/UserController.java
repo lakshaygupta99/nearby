@@ -32,16 +32,11 @@ public class UserController {
 	}
 
 	@PostMapping("/login-user")
-	public ResponseEntity<User> loginUser(@RequestBody Map<String, String> reqMap) {
-		try {
-			User user = userService.loginUser(reqMap);
+	public ResponseEntity<Optional<User>> loginUser(@RequestBody Map<String, String> reqMap) {
+	Optional<User> user = userService.loginUser(reqMap);
 
 			return ResponseEntity.ok().body(user);
-		} catch (Exception e) {
-
-		}
-		return null;
-
+		
 	}
 
 	@PostMapping("/login-admin")

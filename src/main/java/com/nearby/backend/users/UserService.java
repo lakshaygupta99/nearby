@@ -2,6 +2,7 @@ package com.nearby.backend.users;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class UserService {
 
 	}
 
-	public User loginUser(Map<String, String> reqMap) {
+	public Optional<User> loginUser(Map<String, String> reqMap) {
 		String username = reqMap.get("username");
 		String password = reqMap.get("password");
 		return userRepository.findByUsernameAndPassword(username, password);
