@@ -41,24 +41,24 @@ public class UserController {
 	}
 
 	@PostMapping("/login-user")
-	public ResponseEntity<Optional<User>> loginUser(@RequestBody Map<String, String> reqMap) {
+	public ResponseEntity<Object> loginUser(@RequestBody Map<String, String> reqMap) {
 		try {
 			
-			Optional<User> user = userService.loginUser(reqMap);
+			Object user = userService.loginUser(reqMap);
 			return ResponseEntity.ok().body(user);
 		}
 		catch(Exception e) {
-			return ResponseEntity.status(400).body(null);
+			return ResponseEntity.status(400).body(e);
 		}
 		
 	}
 
 	@PostMapping("/login-admin")
-	public ResponseEntity<Admin> loginAdmin(@RequestBody Admin admin) {
+	public ResponseEntity<Object> loginAdmin(@RequestBody Admin admin) {
 		try {
 			return ResponseEntity.ok(userService.loginAdmin(admin));
 		} catch (Exception e) {
-			return ResponseEntity.status(400).body(null);
+			return ResponseEntity.status(400).body(e);
 		}
 	}
 }
