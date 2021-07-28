@@ -1,11 +1,11 @@
 package com.nearby.backend.cart;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +22,8 @@ import com.nearby.backend.coupons.ResourceNotFoundException;
 @RequestMapping(path = "api/cart")
 public class CartController {
 
-	
 	private final CartService cartService;
-	
+
 	@Autowired
 	public CartController(CartService cartService) {
 		this.cartService = cartService;
@@ -34,39 +33,53 @@ public class CartController {
 	public String testF() {
 		return "Success";
 	}
-	
-	@PostMapping("/create-cart")
-	public Cart createCoupon(@Validated @RequestBody Cart cart) {
-		return cartService.save(cart);
-	}
-	
-	@GetMapping("/get-cart/{id}")
-	public Cart getCart(@PathVariable(value = "id") Long id) {
-		Cart crt =  cartService.getCartOfUser(id);
-		
-		
-		if(crt != null) {
-			return crt;
-		}else {
-			ArrayList<Long> l = new ArrayList<Long>();
-			Cart newCart = new Cart(id, l);
-			
-			return cartService.save(newCart);
-		}
-		
-	}
-	
-	@PutMapping("/update-cart/{cart_id}")
-	public ResponseEntity<Cart> updateCart(@PathVariable(value = "cartId") Long cartId,
-			@Validated @RequestBody Cart cart) throws ResourceNotFoundException {
-		Cart c = cartService.findById(cartId)
-				.orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id :: " + cartId));
 
-		c.setCoupon_ids(cart.getCoupon_ids());
+	@PostMapping("/create-cart")
+	public ResponseEntity<Object> createCart(@Validated @RequestBody Cart cart) {
+		try {
+			
+			return ResponseEntity.ok(cartService.save(cart));
+		} catch (Exception e) {
 		
-		
-		final Cart updatedCart = cartService.save(c);
-		return ResponseEntity.ok(updatedCart);
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+		}
+
+	}
+
+	@GetMapping("/get-cart/{id}")
+	public ResponseEntity<Object> getCart(@PathVariable(value = "id") Long id) {
+		Cart crt = cartService.getCartOfUser(id);
+
+		try {
+			if (crt != null) {
+				return ResponseEntity.ok().body(crt);
+			} else {
+				ArrayList<Long> l = new ArrayList<Long>();
+				Cart newCart = new Cart(id, l);
+
+				return ResponseEntity.ok(cartService.save(newCart));
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+		}
+
+	}
+
+	@PutMapping("/update-cart/{cartId}")
+	public ResponseEntity<Object> updateCart(@PathVariable(value = "cartId") Long cartId,
+			@Validated @RequestBody Cart cart) throws ResourceNotFoundException {
+
+		try {
+			Cart c = cartService.findById(cartId)
+					.orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id: " + cartId));
+
+			c.setCoupon_ids(cart.getCoupon_ids());
+
+			final Cart updatedCart = cartService.save(c);
+			return ResponseEntity.ok(updatedCart);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);		}
+
 	}
 
 }

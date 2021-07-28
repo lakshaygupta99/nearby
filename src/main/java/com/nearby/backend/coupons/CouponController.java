@@ -3,6 +3,7 @@ package com.nearby.backend.coupons;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,83 +30,120 @@ public class CouponController {
 	public String test() {
 		return "Success";
 	}
-	
+
 	@GetMapping(value = "/all-coupons")
 	public List<Coupon> getAllCoupons() {
 		return couponService.getAllCoupons();
 	}
 
 	@PostMapping("/create-coupon")
-	public Coupon createCoupon(@Validated @RequestBody Coupon coupon) {
-		return couponService.save(coupon);
+	public ResponseEntity<Object> createCoupon(@Validated @RequestBody Coupon coupon) {
+		try {
+			return ResponseEntity.ok(couponService.save(coupon));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+		}
+
 	}
 
 	@GetMapping("/coupon/{id}")
-	public ResponseEntity<Coupon> getEmployeeById(@PathVariable(value = "id") Long id)  throws ResourceNotFoundException {
-		Coupon coupon = couponService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Coupon not found for this id :: " + id));
+	public ResponseEntity<Object> getEmployeeById(@PathVariable(value = "id") Long id)
+			throws ResourceNotFoundException {
+		try {
+			Coupon coupon = couponService.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("Coupon not found for this id :: " + id));
 
-		return ResponseEntity.ok().body(coupon);
+			return ResponseEntity.ok().body(coupon);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+		}
+
 	}
 
 	@GetMapping("/coupon/city/{city}")
-	public List<Coupon> getCouponsBasedOnCity(@PathVariable(value = "city") String city) {
-		return couponService.getCouponsBasedOnCity(city);
+	public ResponseEntity<Object> getCouponsBasedOnCity(@PathVariable(value = "city") String city) {
+		try {
+			return ResponseEntity.ok(couponService.getCouponsBasedOnCity(city));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+		}
+
 	}
 
 	@GetMapping("/coupon/area/{city}/{area}")
-	public List<Coupon> getCouponsBasedOnArea(@PathVariable(value = "city") String city,
+	public ResponseEntity<Object> getCouponsBasedOnArea(@PathVariable(value = "city") String city,
 			@PathVariable(value = "area") String area) {
-		return couponService.getCouponsBasedOnArea(city, area);
+		try {
+			return ResponseEntity.ok(couponService.getCouponsBasedOnArea(city, area));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+		}
+
 	}
 
 	@PutMapping("/coupon/{id}")
-	public ResponseEntity<Coupon> updateCoupon(@PathVariable(value = "id") Long id,
+	public ResponseEntity<Object> updateCoupon(@PathVariable(value = "id") Long id,
 			@Validated @RequestBody Coupon coupon) throws ResourceNotFoundException {
+		try {
+			Coupon c = couponService.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("Coupon not found for this id: " + id));
 
-		Coupon c = couponService.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Coupon not found for this id :: " + id));
+			c.setName(coupon.getName());
+			c.setArea(coupon.getArea());
+			c.setCity(coupon.getCity());
+			c.setCode(coupon.getCode());
+			c.setCount(coupon.getCount());
+			c.setDescription(coupon.getDescription());
+			c.setImage(coupon.getImage());
+			c.setShopName(coupon.getShopName());
 
-		c.setName(coupon.getName());
-		c.setArea(coupon.getArea());
-		c.setCity(coupon.getCity());
-		c.setCode(coupon.getCode());
-		c.setCount(coupon.getCount());
-		c.setDescription(coupon.getDescription());
-		c.setImage(coupon.getImage());
-		c.setShopName(coupon.getShopName());
-		
-		
-		final Coupon updatedCoupon = couponService.save(c);
-		return ResponseEntity.ok(updatedCoupon);
+			final Coupon updatedCoupon = couponService.save(c);
+			return ResponseEntity.ok(updatedCoupon);
+
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+		}
 	}
-	
-	
-    @DeleteMapping("/coupon/{id}")
-    public Map < String, Boolean > deleteEmployee(@PathVariable(value = "id") Long id)
-    throws ResourceNotFoundException {
-        Coupon coupon = couponService.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + id));
 
-        couponService.delete(coupon);
-        Map < String, Boolean > response = new HashMap < > ();
-        response.put("deleted", Boolean.TRUE);
-        return response;
-    }
-    
+	@DeleteMapping("/coupon/{id}")
+	public ResponseEntity<Object> deleteEmployee(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
+		try {
+			Coupon coupon = couponService.findById(id)
+					.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id: " + id));
+
+			couponService.delete(coupon);
+			Map<String, Boolean> response = new HashMap<>();
+			response.put("deleted", Boolean.TRUE);
+			return ResponseEntity.ok().body(response);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+		}
+
+	}
+
 	@PostMapping("/get-coupons-in-cart")
-	public ArrayList<Coupon> getCoupons(@Validated @RequestBody Map<String,ArrayList<Long>> id){
-		return (ArrayList<Coupon>) couponService.getCoupons(id.get("coupon_ids"));
+	public ResponseEntity<Object> getCoupons(@Validated @RequestBody Map<String, ArrayList<Long>> id) {
+		try {
+			return ResponseEntity.ok((ArrayList<Coupon>) couponService.getCoupons(id.get("coupon_ids")));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+		}
+
 	}
-	
+
 	@PutMapping("/reduce-coupon-count")
-	public Map<String, String> reduceCouponCount(@Validated @RequestBody ArrayList<Map<String,Long>> coupons){
-		
-		coupons.forEach((c) -> 
-		couponService.reduceCount(c));
-		
-		Map<String, String> m  = new HashMap<String, String>();
-		m.put("status", "success");
-		return m;
+	public ResponseEntity<Object> reduceCouponCount(@Validated @RequestBody ArrayList<Map<String, Long>> coupons) {
+
+		try {
+			coupons.forEach((c) -> couponService.reduceCount(c));
+
+			Map<String, String> m = new HashMap<String, String>();
+			m.put("status", "success");
+			return ResponseEntity.ok(m);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+		}
+
 	}
 
 }
