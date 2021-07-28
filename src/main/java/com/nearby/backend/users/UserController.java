@@ -31,7 +31,7 @@ public class UserController {
 	}
 
 	@PostMapping("/register-user")
-	public ResponseEntity<User> registerUser(@Validated @RequestBody User user) {
+	public ResponseEntity<Object> registerUser(@Validated @RequestBody User user) {
 		try {
 			return ResponseEntity.ok(userService.registerUser(user));
 		} catch (Exception e) {
@@ -45,7 +45,7 @@ public class UserController {
 		try {
 			
 			Object user = userService.loginUser(reqMap);
-			return ResponseEntity.ok().body(user);
+			return ResponseEntity.ok(user);
 		}
 		catch(Exception e) {
 			return ResponseEntity.status(400).body(e);
@@ -58,6 +58,17 @@ public class UserController {
 		try {
 			return ResponseEntity.ok(userService.loginAdmin(admin));
 		} catch (Exception e) {
+			return ResponseEntity.status(400).body(e);
+		}
+	}
+	
+	@PutMapping("/update-contact/{id}")
+	public ResponseEntity<Object> updateContact(@RequestBody Map<String, String> reqMap, @PathVariable(value = "id") Long id) {
+		
+		try {
+			return ResponseEntity.ok(userService.updateContact(reqMap,id));
+		}
+		catch(Exception e) {
 			return ResponseEntity.status(400).body(e);
 		}
 	}
