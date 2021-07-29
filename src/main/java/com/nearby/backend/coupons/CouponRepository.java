@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
 
-	List<Coupon> findByCityContainingIgnoreCase(String city);
+	List<Coupon> findByCityStartsWithIgnoreCase(String city);
 
-	List<Coupon> findByCityContainingIgnoreCaseAndAreaContainingIgnoreCase(String city, String area);
+	List<Coupon> findByCityStartsWithIgnoreCaseAndAreaStartsWithIgnoreCase(String city, String area);
 
 
 	@Query(value = "select * from coupons" + " where id in :id", nativeQuery = true)

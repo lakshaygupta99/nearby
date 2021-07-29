@@ -25,17 +25,18 @@ public class CouponService {
 	}
 
 	public Optional<Coupon> findById(Long id) {
+		
 		Optional<Coupon> coupon = couponRepository.findById(id);
 		return coupon;
 	}
 
 	public List<Coupon> getCouponsBasedOnCity(String city) {
-		List<Coupon> list = couponRepository.findByCityContainingIgnoreCase(city);
+		List<Coupon> list = couponRepository.findByCityStartsWithIgnoreCase(city);
 		return list;
 	}
 
 	public List<Coupon> getCouponsBasedOnArea(String city, String area) {
-		List<Coupon> list = couponRepository.findByCityContainingIgnoreCaseAndAreaContainingIgnoreCase(city, area);
+		List<Coupon> list = couponRepository.findByCityStartsWithIgnoreCaseAndAreaStartsWithIgnoreCase(city, area);
 		return list;
 	}
 
