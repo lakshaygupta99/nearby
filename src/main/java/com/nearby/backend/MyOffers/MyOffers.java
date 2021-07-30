@@ -13,7 +13,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "myOffers")
 public class MyOffers {
-	private Long Id;
+	private long userId;
+	private long phone;
 	private String email;
 	private ArrayList<Long> couponIds;
 	private ArrayList<Long> transactionDate;
@@ -26,14 +27,23 @@ public class MyOffers {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long getId() {
-		return Id;
+	public long getId() {
+		return userId;
 	}
 	
 	public void setId(Long id) {
-		this.Id = id;
+		this.userId = id;
 	}
 	
+	@Column(name = "phone")
+	public long getPhone() {
+		return phone;
+	}
+
+	public void setPhone(long phone) {
+		this.phone = phone;
+	}
+
 	@Column(name = "email", nullable = false)
 	public String getEmail() {
 		return email;

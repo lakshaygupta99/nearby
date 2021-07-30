@@ -14,6 +14,8 @@ import com.nearby.backend.coupons.Coupon;
 public interface MyOfferRepository extends JpaRepository<MyOffers, String> {
 
 	@Query(value = "select * from myOffers" +  " where email = :email", nativeQuery = true)
-	MyOffers getOffersOfUser(@Param("email") String email);
+	MyOffers getOffersOfUserByEmail(@Param("email") String email);
 
+	@Query(value = "select * from myOffers" +  " where userId = :userId", nativeQuery = true)
+	MyOffers getOffersOfUserById(@Param("userId") long userId);
 }
