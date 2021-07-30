@@ -33,7 +33,11 @@ public class CartController {
 	public String testF() {
 		return "Success";
 	}
-
+	
+	@GetMapping(value = "/all-carts")
+	public List<Cart> getAllCarts() {
+		return cartService.getAllCarts();
+	}
 	@PostMapping("/create-cart")
 	public ResponseEntity<Object> createCart(@Validated @RequestBody Cart cart) {
 		try {

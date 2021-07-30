@@ -16,6 +16,8 @@ public interface MyOfferRepository extends JpaRepository<MyOffers, String> {
 	@Query(value = "select * from myOffers" +  " where email = :email", nativeQuery = true)
 	MyOffers getOffersOfUserByEmail(@Param("email") String email);
 
-	@Query(value = "select * from myOffers" +  " where userId = :userId", nativeQuery = true)
-	MyOffers getOffersOfUserById(@Param("userId") long userId);
+	
+	List<MyOffers> findByUserId(@Param("userId") long userId);
+	
+	
 }

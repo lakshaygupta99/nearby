@@ -48,7 +48,7 @@ public class Cart {
 		this.id = id;
 	}
 
-	@Column(name = "user_id", nullable = false)
+	@Column(name = "user_id", nullable = false, unique=true)
 	public Long getCreatedBy() {
 		return createdBy;
 	}
