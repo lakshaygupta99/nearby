@@ -77,11 +77,11 @@ public class MyOffers{
 	}
 
 	@Column(name = "coupons")
-	public ArrayList<Long> getCouponIds() {
+	public ArrayList<Long> getCoupons() {
 		return coupons;
 	}
 
-	public void setCouponIds(ArrayList<Long> couponIds) {
+	public void setCoupons(ArrayList<Long> coupons) {
 		this.coupons = coupons;
 	}
 

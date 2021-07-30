@@ -27,6 +27,7 @@ public class MyOffersService {
 	public MyOffers paymentSuccess(String email, Long id, ArrayList<Long>coupons, String phone, String address, Long CartId) { 
 		
 		MyOffers of = new MyOffers(id, email, coupons, address, phone);
+		//System.out.println(of.getCouponIds());
 		cartRepository.deleteById(CartId);
 		return offerRepository.save(of);
 	}
