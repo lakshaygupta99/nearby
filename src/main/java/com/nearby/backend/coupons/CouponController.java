@@ -96,6 +96,7 @@ public class CouponController {
 			c.setDescription(coupon.getDescription());
 			c.setImage(coupon.getImage());
 			c.setShopName(coupon.getShopName());
+			c.setPrice(coupon.getPrice());
 
 			final Coupon updatedCoupon = couponService.save(c);
 			return ResponseEntity.ok(updatedCoupon);

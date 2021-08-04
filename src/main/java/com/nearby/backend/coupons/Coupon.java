@@ -22,9 +22,10 @@ public class Coupon {
 	private String city;
 	private String area;
 	private String code;
+	private Long price;
 
 	public Coupon(String name, String description, String image, Integer count, String shopName, String city,
-			String area, String code) {
+			String area, String code, Long price) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -34,7 +35,7 @@ public class Coupon {
 		this.city = city;
 		this.area = area;
 		this.code = code;
-	}
+		this.price= price;	}
 
 	public Coupon() {
 		super();
@@ -120,6 +121,15 @@ public class Coupon {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	@Column(name = "price", nullable = false)
+	public Long getPrice() {
+		return price;
+	}
+
+	public void setPrice(Long price) {
+		this.price = price;
 	}
 
 }

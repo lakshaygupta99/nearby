@@ -17,6 +17,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import com.nearby.backend.coupons.Coupon;
 
@@ -30,9 +31,7 @@ public class MyOffers{
 	private String address;
 	private ArrayList<Long> coupons;
 
-	@CreationTimestamp
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "transaction_date")
+	
 	private Date transactionDate;
 
 	public MyOffers() {
@@ -85,6 +84,8 @@ public class MyOffers{
 		this.coupons = coupons;
 	}
 
+	@CreationTimestamp
+	@Column(name = "transaction_date")
 	public Date getTransactionDate() {
 		return transactionDate;
 	}
