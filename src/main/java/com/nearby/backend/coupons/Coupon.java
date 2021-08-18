@@ -1,5 +1,7 @@
 package com.nearby.backend.coupons;
 
+import java.util.ArrayList;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,6 +25,7 @@ public class Coupon {
 	private String area;
 	private String code;
 	private Long price;
+	private ArrayList<Long> likedBy;
 
 	public Coupon(String name, String description, String image, Integer count, String shopName, String city,
 			String area, String code, Long price) {
@@ -132,4 +135,14 @@ public class Coupon {
 		this.price = price;
 	}
 
+	@Column(name = "likedBy")
+	public ArrayList<Long> getLikedBy() {
+		return likedBy;
+	}
+
+	public void setLikedBy(ArrayList<Long> likedBy) {
+		this.likedBy = likedBy;
+	}
+
+	
 }

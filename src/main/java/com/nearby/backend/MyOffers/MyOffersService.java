@@ -33,6 +33,9 @@ public class MyOffersService {
 		
 		MyOffers of = new MyOffers(id, email, coupons, address, phone);
 		//System.out.println(of.getCouponIds());
+		
+		// parallel checkout -> if only one coupon is left
+		
 		cartRepository.deleteById(CartId);
 		Long qty = (long) 1;
 		for(int i = 0;i< coupons.size(); i++) {
