@@ -14,6 +14,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.transaction.Transactional;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -21,6 +22,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import com.nearby.backend.coupons.Coupon;
 
+@Transactional
 @Entity
 @Table(name = "myOffers")
 public class MyOffers{

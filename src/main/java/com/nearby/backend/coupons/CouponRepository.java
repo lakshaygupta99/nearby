@@ -16,7 +16,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
 	List<Coupon> findByCityStartsWithIgnoreCaseAndAreaStartsWithIgnoreCase(String city, String area);
 
 
-	@Query(value = "select * from coupons" + " where id in :id", nativeQuery = true)
+	@Query(value = "select * from coupons" + " where id in :id and count > 0", nativeQuery = true)
 	ArrayList<Coupon> getCoupons( ArrayList<Long> id);
 
 	@Query(value = "update coupons" + " set count = count - :quantity" + " where id = :id", nativeQuery = true)
