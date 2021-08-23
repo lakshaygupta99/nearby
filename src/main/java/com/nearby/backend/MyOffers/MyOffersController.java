@@ -39,14 +39,14 @@ public class MyOffersController {
 	public List<MyOffers> getAllMyOffers() {
 		return offerService.getAllMyOffers();
 	}
-//	@GetMapping(value = "/findByTransaction/{userId}/{date}")
-//	public MyOffers findByDate(@PathVariable(value = "userId") Long userId, @PathVariable(value = "date") String date) {
-//		try {
-//			return offerService.findByTransactionDate(userId, date);
-//		} catch (Exception e) {
-//			return null;
-//		}
-//	}
+	@GetMapping(value = "/findByTransaction/{userId}/{date}")
+	public MyOffers findByDate(@PathVariable(value = "userId") Long userId, @PathVariable(value = "date") String date) {
+		try {
+			return offerService.findByTransactionDate(userId, date);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 	@GetMapping(value = "/myOffers-purchased/{userId}")
 	public List<MyOffers> getAllOffers(@PathVariable(value = "userId") long userId) {

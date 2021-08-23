@@ -37,6 +37,11 @@ public class MyOffersService {
 		return  offerRepository.findByUserId(userId);
 	}
 
+	public MyOffers findByTransactionDate(Long userId, String date) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	
 
