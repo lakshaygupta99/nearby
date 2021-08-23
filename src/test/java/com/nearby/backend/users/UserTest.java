@@ -1,7 +1,9 @@
 package com.nearby.backend.users;
 
+import org.json.JSONArray;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -13,15 +15,16 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
+import static org.mockito.ArgumentMatchers.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-//@ExtendWith(SpringExtension.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(UserController.class)
 public class UserTest {
 
@@ -54,16 +57,42 @@ public class UserTest {
 	@Test
 	void getAllUsers() throws Exception {
 
+		List<User> allUsers = new ArrayList<User>();
+		
+		User user1 = new User("aman", "aman", "aman.ahuja680@gmail.com", "amanahuja123", "8802235383",
+				"C-7/15, Krishna Nagar, Delhi -51");
+		user1.setId(1L);
+		
+		User user2 = new User("aman", "aman", "aman.ahuja680@gmail.com", "amanahuja123", "8802235383",
+				"C-7/15, Krishna Nagar, Delhi -51");
+		user2.setId(2L);
+		
+		allUsers.add(user1);
+		allUsers.add(user2);
+		
+		Mockito.when(userService.getAllUsers()).thenReturn(allUsers);
+		
 		RequestBuilder request = MockMvcRequestBuilders.get("/api/users/all-users");
 		MvcResult result = mvc.perform(request).andReturn();
-//		System.out.println(result.getResponse().getContentAsString());
+		
+		
 		assertEquals(200, result.getResponse().getStatus());
+		
+		
+		JSONArray jsonArray = new JSONArray(result.getResponse().getContentAsString()); 
+		
+//		System.out.println(result.getResponse().getContentAsString());
+		
+		assertEquals(2,jsonArray.length());
 	}
 
 	@Test
 	void loginAdmin() throws Exception {
 		Admin admin = new Admin("admin", "admin");
 
+		Mockito.when(userService.loginAdmin((Admin) any(Admin.class))).thenReturn(admin);
+		
+		
 		RequestBuilder request = MockMvcRequestBuilders.post("/api/users/login-admin")
 				.contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(admin));
 
@@ -78,12 +107,42 @@ public class UserTest {
 				"C-7/15, Krishna Nagar, Delhi -51");
 		user.setId(1L);
 		
-
 		RequestBuilder request = MockMvcRequestBuilders.post("/api/users/login-user")
 				.contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(user));
 
 		MvcResult result = mvc.perform(request).andReturn();
+		assertEquals(200, result.getResponse().getStatus());
+	}
+	
+	@Test
+	void registerUser() throws Exception {
+		User user = new User("aman", "aman", "aman.ahuja680@gmail.com", "amanahuja123", "8802235383",
+				"C-7/15, Krishna Nagar, Delhi -51");
+		user.setId(1L);
+		
+		Mockito.when(userService.registerUser((User) any(User.class))).thenReturn(user);
+		
+		RequestBuilder request = MockMvcRequestBuilders.post("/api/users/register-user")
+				.contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(user));
 
+		MvcResult result = mvc.perform(request).andReturn();
+		
+//		System.out.println("REGISTER : "+ result.getResponse().getContentAsString());
+
+		assertEquals(200, result.getResponse().getStatus());
+	}
+	
+	@Test
+	void updateContact() throws Exception {
+		User user = new User("aman", "aman", "aman.ahuja680@gmail.com", "amanahuja123", "8802235383",
+				"C-7/15, Krishna Nagar, Delhi -51");
+		user.setId(1L);
+		
+		RequestBuilder request = MockMvcRequestBuilders.put("/api/users/update-contact/1")
+				.contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(user));
+
+		MvcResult result = mvc.perform(request).andReturn();
+		
 		assertEquals(200, result.getResponse().getStatus());
 	}
 

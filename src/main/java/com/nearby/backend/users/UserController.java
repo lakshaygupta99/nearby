@@ -49,7 +49,6 @@ public class UserController {
 	@PostMapping("/login-user")
 	public ResponseEntity<Object> loginUser(@RequestBody Map<String, String> reqMap) {
 		try {
-
 			Object user = userService.loginUser(reqMap);
 			return ResponseEntity.ok(user);
 		} catch (Exception e) {
