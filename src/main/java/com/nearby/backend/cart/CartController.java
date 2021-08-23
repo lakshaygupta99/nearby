@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.nearby.backend.coupons.Coupon;
+import com.nearby.backend.coupons.CouponService;
 import com.nearby.backend.coupons.ResourceNotFoundException;
 
 @RestController
@@ -23,28 +24,31 @@ import com.nearby.backend.coupons.ResourceNotFoundException;
 public class CartController {
 
 	private final CartService cartService;
+	private final CouponService couponService;
 
 	@Autowired
-	public CartController(CartService cartService) {
+	public CartController(CartService cartService, CouponService couponService) {
 		this.cartService = cartService;
+		this.couponService = couponService;
 	}
 
 	@GetMapping(value = "/test")
 	public String testF() {
 		return "Success";
 	}
-	
+
 	@GetMapping(value = "/all-carts")
 	public List<Cart> getAllCarts() {
 		return cartService.getAllCarts();
 	}
+
 	@PostMapping("/create-cart")
 	public ResponseEntity<Object> createCart(@Validated @RequestBody Cart cart) {
 		try {
-			
+
 			return ResponseEntity.ok(cartService.save(cart));
 		} catch (Exception e) {
-		
+
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
 		}
 
@@ -82,7 +86,21 @@ public class CartController {
 			final Cart updatedCart = cartService.save(c);
 			return ResponseEntity.ok(updatedCart);
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);		}
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+		}
+
+	}
+
+	@GetMapping("/cart-coupons/{cartId}")
+	public ResponseEntity<Object> getCoupons(@PathVariable(value = "cartId") Long cartId) {
+		try {
+			Cart c = cartService.findById(cartId)
+					.orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id: " + cartId));
+
+			return ResponseEntity.ok((ArrayList<Coupon>) couponService.getCoupons(c.getCoupon_ids()));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
+		}
 
 	}
 

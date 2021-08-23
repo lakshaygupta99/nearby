@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +21,9 @@ public class MyOffersService {
 	@Autowired
 	private CartRepository cartRepository;
 	
+	@Autowired
+	private CouponRepository couponRepository;
+	
 	public List<MyOffers> getAllMyOffers() {
 		return offerRepository.findAll();
 
@@ -28,7 +33,15 @@ public class MyOffersService {
 		
 		MyOffers of = new MyOffers(id, email, coupons, address, phone);
 		//System.out.println(of.getCouponIds());
+		
+		// parallel checkout -> if only one coupon is left
+		
 		cartRepository.deleteById(CartId);
+		Long qty = (long) 1;
+		for(int i = 0;i< coupons.size(); i++) {
+			couponRepository.reduceCount(coupons.get(i),qty);
+		}
+		
 		return offerRepository.save(of);
 	}
 

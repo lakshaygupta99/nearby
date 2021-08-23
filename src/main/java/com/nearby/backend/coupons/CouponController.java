@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nearby.backend.cart.Cart;
+
 @RestController
 @RequestMapping(path = "api/coupons")
 public class CouponController {
@@ -39,6 +41,8 @@ public class CouponController {
 	@PostMapping("/create-coupon")
 	public ResponseEntity<Object> createCoupon(@Validated @RequestBody Coupon coupon) {
 		try {
+			ArrayList<Long> userIds = new ArrayList<Long>();
+			coupon.setLikedBy(userIds);
 			return ResponseEntity.ok(couponService.save(coupon));
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
@@ -96,6 +100,7 @@ public class CouponController {
 			c.setDescription(coupon.getDescription());
 			c.setImage(coupon.getImage());
 			c.setShopName(coupon.getShopName());
+			c.setPrice(coupon.getPrice());
 
 			final Coupon updatedCoupon = couponService.save(c);
 			return ResponseEntity.ok(updatedCoupon);
@@ -106,10 +111,10 @@ public class CouponController {
 	}
 
 	@DeleteMapping("/coupon/{id}")
-	public ResponseEntity<Object> deleteEmployee(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
+	public ResponseEntity<Object> deleteCoupon(@PathVariable(value = "id") Long id) throws ResourceNotFoundException {
 		try {
 			Coupon coupon = couponService.findById(id)
-					.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id: " + id));
+					.orElseThrow(() -> new ResourceNotFoundException("Coupon not found for this id: " + id));
 
 			couponService.delete(coupon);
 			Map<String, Boolean> response = new HashMap<>();
@@ -143,6 +148,31 @@ public class CouponController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
 		}
+
+	}
+	
+	
+	@PutMapping("/update-coupon/{couponId}/{userId}")
+	public ResponseEntity<Object> updateLikedCoupon(@PathVariable(value = "couponId") Long couponId,
+			@PathVariable(value = "userId") Long userId
+			) throws ResourceNotFoundException {
+
+		try {
+			Coupon c = couponService.findById(couponId)
+					.orElseThrow(() -> new ResourceNotFoundException("Coupon not found for this id: " + couponId));
+
+			ArrayList<Long>userIds = c.getLikedBy();
+			if(userIds.contains(userId)) {
+				userIds.remove(userId);
+			}else {
+				userIds.add(userId);
+			}
+			c.setLikedBy(userIds);
+
+			final Coupon updatedCCoupon = couponService.save(c);
+			return ResponseEntity.ok(updatedCCoupon);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e);		}
 
 	}
 

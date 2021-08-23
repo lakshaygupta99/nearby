@@ -1,14 +1,18 @@
 package com.nearby.backend.coupons;
 
+import java.util.ArrayList;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Transactional
 @Entity
 @Table(name = "coupons")
 public class Coupon {
@@ -22,9 +26,11 @@ public class Coupon {
 	private String city;
 	private String area;
 	private String code;
+	private Long price;
+	private ArrayList<Long> likedBy;
 
 	public Coupon(String name, String description, String image, Integer count, String shopName, String city,
-			String area, String code) {
+			String area, String code, Long price) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -34,7 +40,7 @@ public class Coupon {
 		this.city = city;
 		this.area = area;
 		this.code = code;
-	}
+		this.price= price;	}
 
 	public Coupon() {
 		super();
@@ -122,4 +128,23 @@ public class Coupon {
 		this.code = code;
 	}
 
+	@Column(name = "price", nullable = false)
+	public Long getPrice() {
+		return price;
+	}
+
+	public void setPrice(Long price) {
+		this.price = price;
+	}
+
+	@Column(name = "likedBy")
+	public ArrayList<Long> getLikedBy() {
+		return likedBy;
+	}
+
+	public void setLikedBy(ArrayList<Long> likedBy) {
+		this.likedBy = likedBy;
+	}
+
+	
 }

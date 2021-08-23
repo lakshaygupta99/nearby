@@ -13,10 +13,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.transaction.Transactional;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nearby.backend.users.User;
 
+@Transactional
 @Entity
 @Table(name = "cart")
 public class Cart {
