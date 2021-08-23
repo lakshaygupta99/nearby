@@ -8,7 +8,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication	
-//@ComponentScan({"com.nearby.backend.users"})
 public class Application {
 
 	public static void main(String[] args) {

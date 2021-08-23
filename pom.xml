@@ -41,7 +41,7 @@
 				<exclusion>
 					<groupId>org.junit.vinage</groupId>
 					<artifactId>junit-vintage-engine</artifactId>
-					
+
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -49,8 +49,8 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
-		
-		
+
+
 	</dependencies>
 
 	<build>

@@ -13,6 +13,9 @@ public class Admin {
 		this.password = password;
 	}
 	
+	public Admin() {
+		super();
+	}
 	public String getUsername() {
 		return username;
 	}
