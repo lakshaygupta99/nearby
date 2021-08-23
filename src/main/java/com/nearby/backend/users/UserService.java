@@ -16,28 +16,25 @@ public class UserService {
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
 	}
-	
-	public User updateContact(Map<String,String> reqMap,Long id) throws Exception {
+
+	public User updateContact(Map<String, String> reqMap, Long id) throws Exception {
 		String phone = reqMap.get("phone");
 		String address = reqMap.get("address");
-		User user = userRepository.findById(id)
-	            .orElseThrow(() -> new Exception("User not found for this id :: " + id));
+		User user = userRepository.findById(id).orElseThrow(() -> new Exception("User not found for this id :: " + id));
 		user.setAddress(address);
 		user.setPhone(phone);
 		return userRepository.save(user);
-		
+
 	}
 
 	public User registerUser(User user) {
 		User user1 = userRepository.findByEmail(user.getEmail());
 		User user2 = userRepository.findByUsername(user.getUsername());
-		if(user1!=null || user2!=null) {
+		if (user1 != null || user2 != null) {
 			return null;
-		}
-		else {
+		} else {
 			return userRepository.save(user);
 		}
-			
 
 	}
 

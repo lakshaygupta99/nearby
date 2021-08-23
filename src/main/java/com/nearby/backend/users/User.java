@@ -10,6 +10,8 @@ import javax.transaction.Transactional;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.stereotype.Component;
+
 @Transactional
 @Entity
 @Table(name = "users")

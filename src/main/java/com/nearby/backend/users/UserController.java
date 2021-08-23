@@ -20,11 +20,17 @@ public class UserController {
 		this.userService = userService;
 	}
 
+	@GetMapping(value = "/hello")
+	public String hello() {
+		return "Hello";
+	}
+
 	@GetMapping(value = "/all-users")
 	public ResponseEntity<List<User>> getAllUsers() {
 		try {
 			return ResponseEntity.ok(userService.getAllUsers());
 		} catch (Exception e) {
+			System.out.println(e);
 			return ResponseEntity.status(400).body(null);
 		}
 
@@ -43,14 +49,13 @@ public class UserController {
 	@PostMapping("/login-user")
 	public ResponseEntity<Object> loginUser(@RequestBody Map<String, String> reqMap) {
 		try {
-			
+
 			Object user = userService.loginUser(reqMap);
 			return ResponseEntity.ok(user);
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			return ResponseEntity.status(400).body(e);
 		}
-		
+
 	}
 
 	@PostMapping("/login-admin")
@@ -61,14 +66,14 @@ public class UserController {
 			return ResponseEntity.status(400).body(e);
 		}
 	}
-	
+
 	@PutMapping("/update-contact/{id}")
-	public ResponseEntity<Object> updateContact(@RequestBody Map<String, String> reqMap, @PathVariable(value = "id") Long id) {
-		
+	public ResponseEntity<Object> updateContact(@RequestBody Map<String, String> reqMap,
+			@PathVariable(value = "id") Long id) {
+
 		try {
-			return ResponseEntity.ok(userService.updateContact(reqMap,id));
-		}
-		catch(Exception e) {
+			return ResponseEntity.ok(userService.updateContact(reqMap, id));
+		} catch (Exception e) {
 			return ResponseEntity.status(400).body(e);
 		}
 	}
