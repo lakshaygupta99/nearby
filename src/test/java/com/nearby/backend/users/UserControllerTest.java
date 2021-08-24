@@ -27,7 +27,7 @@ import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(UserController.class)
-public class UserTest {
+public class UserControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
@@ -90,16 +90,14 @@ public class UserTest {
 		Admin admin = new Admin("admin", "admin");
 
 		Mockito.when(userService.loginAdmin((Admin) any(Admin.class))).thenReturn(admin);
-		
-			
 
 		RequestBuilder request = MockMvcRequestBuilders.post("/api/users/login-admin")
 				.contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(admin));
 
 		MvcResult result = mvc.perform(request).andReturn();
-		
+
 //		System.out.println(result.getResponse().getContentAsString());
-		
+
 		assertEquals(200, result.getResponse().getStatus());
 	}
 
@@ -108,21 +106,20 @@ public class UserTest {
 		User user = new User("aman", "aman", "aman.ahuja680@gmail.com", "amanahuja123", "8802235383",
 				"C-7/15, Krishna Nagar, Delhi -51");
 		user.setId(1L);
-		
-		Map<String,String> reqMap = new HashMap();
-		reqMap.put("username","aman");
-		reqMap.put("password","amanahuja123");
-		
-		Mockito.when(userService.loginUser((Map<String,String>) any(Map.class))).thenReturn(Optional.of(user));
-		
+
+		Map<String, String> reqMap = new HashMap();
+		reqMap.put("username", "aman");
+		reqMap.put("password", "amanahuja123");
+
+		Mockito.when(userService.loginUser((Map<String, String>) any(Map.class))).thenReturn(Optional.of(user));
+
 		RequestBuilder request = MockMvcRequestBuilders.post("/api/users/login-user")
 				.contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(user));
 
 		MvcResult result = mvc.perform(request).andReturn();
-		
+
 //		System.out.println(result.getResponse().getContentAsString());
-		
-		
+
 		assertEquals(200, result.getResponse().getStatus());
 	}
 

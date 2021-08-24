@@ -16,6 +16,12 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table(name = "users")
 public class User {
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", username=" + username + ", email=" + email + ", password="
+				+ password + ", phone=" + phone + ", address=" + address + "]";
+	}
+
 	private Long id;
 	private String name;
 	private String username;
