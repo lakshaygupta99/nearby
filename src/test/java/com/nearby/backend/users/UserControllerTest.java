@@ -56,7 +56,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	void getAllUsers() throws Exception {
+	void getAllUsersTest() throws Exception {
 
 		List<User> allUsers = new ArrayList<User>();
 
@@ -86,7 +86,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	void loginAdmin() throws Exception {
+	void loginAdminTest() throws Exception {
 		Admin admin = new Admin("admin", "admin");
 
 		Mockito.when(userService.loginAdmin((Admin) any(Admin.class))).thenReturn(admin);
@@ -102,14 +102,10 @@ public class UserControllerTest {
 	}
 
 	@Test
-	void loginUser() throws Exception {
+	void loginUserTest() throws Exception {
 		User user = new User("aman", "aman", "aman.ahuja680@gmail.com", "amanahuja123", "8802235383",
 				"C-7/15, Krishna Nagar, Delhi -51");
 		user.setId(1L);
-
-		Map<String, String> reqMap = new HashMap();
-		reqMap.put("username", "aman");
-		reqMap.put("password", "amanahuja123");
 
 		Mockito.when(userService.loginUser((Map<String, String>) any(Map.class))).thenReturn(Optional.of(user));
 
@@ -124,7 +120,7 @@ public class UserControllerTest {
 	}
 
 	@Test
-	void registerUser() throws Exception {
+	void registerUserTest() throws Exception {
 		User user = new User("aman", "aman", "aman.ahuja680@gmail.com", "amanahuja123", "8802235383",
 				"C-7/15, Krishna Nagar, Delhi -51");
 		user.setId(1L);
@@ -142,16 +138,24 @@ public class UserControllerTest {
 	}
 
 	@Test
-	void updateContact() throws Exception {
+	void updateContactTest() throws Exception {
 		User user = new User("aman", "aman", "aman.ahuja680@gmail.com", "amanahuja123", "8802235383",
 				"C-7/15, Krishna Nagar, Delhi -51");
 		user.setId(1L);
+		
+		Map<String, String> reqMap = new HashMap();
+		reqMap.put("phone", "8802235383");
+		reqMap.put("address", "C-7/15, Krishna Nagar, Delhi -51");
 
+		Mockito.when(userService.updateContact((Map) any(Map.class),(Long) any(Long.class))).thenReturn(user);
+		
+		
 		RequestBuilder request = MockMvcRequestBuilders.put("/api/users/update-contact/1")
 				.contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(user));
 
 		MvcResult result = mvc.perform(request).andReturn();
 
+//		System.out.println("UPDAT : "+ result.getResponse().getContentAsString());
 		assertEquals(200, result.getResponse().getStatus());
 	}
 

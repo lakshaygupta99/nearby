@@ -35,7 +35,6 @@ public class UserService {
 		} else {
 			return userRepository.save(user);
 		}
-
 	}
 
 	public Optional<User> loginUser(Map<String, String> reqMap) {
