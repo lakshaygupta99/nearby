@@ -32,6 +32,10 @@ public class CartController {
 		this.couponService = couponService;
 	}
 
+	@GetMapping(value = "/hello")
+	public String hello() {
+		return "Hello";
+	}
 	@GetMapping(value = "/test")
 	public String testF() {
 		return "Success";
