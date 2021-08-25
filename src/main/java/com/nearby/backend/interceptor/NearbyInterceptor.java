@@ -14,15 +14,14 @@ public class NearbyInterceptor implements HandlerInterceptor {
       throws Exception {
 	   
       
-//      if(request.getHeader("key").equals("password"))
-//    	return true;
-//      else {
-//    	  response.setStatus(401);
-//    	  response.getWriter().write("You are NOT Authorized for the req");
-//    	  return false;
-//      }
+      if(request.getHeader("key").equals("password"))
+    	return true;
+      else {
+    	  response.setStatus(401);
+    	  response.getWriter().write("You are NOT Authorized for the req");
+    	  return false;
+      }
       
-      return true;
    }
    @Override
    public void postHandle(HttpServletRequest request, HttpServletResponse response, 
